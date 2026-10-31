@@ -72,11 +72,11 @@ class ResPartnerExemptionType(models.Model):
 class ResPartnerExemption(models.Model):
     _name = "res.partner.exemption"
     _description = "Avatax Exemption"
-    _inherit = [
+    _inherit = (
         "res.partner.exemption.type",
         "mail.thread",
         "mail.activity.mixin",
-    ]
+    )
 
     partner_id = fields.Many2one("res.partner", required=True, index=True)
     exemption_type = fields.Many2one("res.partner.exemption.type")
