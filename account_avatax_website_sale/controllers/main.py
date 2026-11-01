@@ -9,6 +9,7 @@ class AvataxWebsiteSale(WebsiteSale):
         "/shop/payment", type="http", auth="public", website=True, sitemap=False
     )
     def shop_payment(self, **post):
-        order = request.website.sale_get_order()
-        order._avatax_compute_tax()
+        order = request.cart
+        if order:
+            order._avatax_compute_tax()
         return super().shop_payment(**post)
