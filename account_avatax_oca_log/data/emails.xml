@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo noupdate="1">
     <record id="reaching_limit_avatax_api_call_email" model="mail.template">
         <field name="name">Avatax API Call Reaching Limit</field>
