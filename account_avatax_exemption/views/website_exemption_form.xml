@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <template id="exemptions_followup" name="Portal Exemption Form">
         <t t-call="portal.portal_layout">
@@ -18,8 +19,8 @@
                     <div class="mt16">
                         <t t-call="account_avatax_exemption.form_field" />
                         <table
-                            class="table table-hover table-striped mt32"
                             t-if="exemption.exemption_line_ids"
+                            class="table table-hover table-striped mt32"
                         >
                             <thead>
                                 <tr>

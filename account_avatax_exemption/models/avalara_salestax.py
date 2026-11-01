@@ -342,9 +342,7 @@ class AvalaraSalestax(models.Model):
 
         avatax_value = 0
         rule_type = "ExemptEntityRule"
-        if rule.taxable:
-            avatax_value = 1
-        elif rule.avatax_rate == 100.0:
+        if rule.taxable or rule.avatax_rate == 100.0:
             avatax_value = 1
         elif rule.avatax_rate:
             rule_type = "RateOverrideRule"

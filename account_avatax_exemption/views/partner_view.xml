@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
     <record id="view_partner_details_form_inherit1_exemption" model="ir.ui.view">
         <field name="name">res.partner.details.form.inherit1.exemption</field>
