@@ -1,4 +1,13 @@
+from functools import partial
+
 from odoo import api, fields, models
+
+
+def _matches_exemption_address(address, ship_to_address, invoice_partner):
+    return address.country_id == ship_to_address.country_id and (
+        address.state_id == ship_to_address.state_id
+        or invoice_partner.property_exemption_country_wide
+    )
 
 
 class SaleOrder(models.Model):
@@ -50,12 +59,10 @@ class SaleOrder(models.Model):
                 invoice_partner | invoice_partner.child_ids
             ).filtered("property_tax_exempt")
             exemption_address_naive = exemption_addresses.filtered(
-                lambda a, ship_to_address=ship_to_address, invoice_partner=invoice_partner: (
-                    a.country_id == ship_to_address.country_id
-                    and (
-                        a.state_id == ship_to_address.state_id
-                        or invoice_partner.property_exemption_country_wide
-                    )
+                partial(
+                    _matches_exemption_address,
+                    ship_to_address=ship_to_address,
+                    invoice_partner=invoice_partner,
                 )
             )[:1]
             # Force Company to get the correct values form the Property fields
@@ -128,7 +135,6 @@ class SaleOrder(models.Model):
     )
     exemption_code_id = fields.Many2one(
         "exemption.code",
-        "Exemption Code",
         compute="_compute_onchange_exemption",
         readonly=False,  # New computed writeable fields
         store=True,
@@ -139,7 +145,6 @@ class SaleOrder(models.Model):
     )
     tax_address_id = fields.Many2one(
         "res.partner",
-        "Tax Address",
         readonly=True,
         compute="_compute_tax_address_id",
         store=True,

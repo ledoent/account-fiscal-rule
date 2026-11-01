@@ -14,7 +14,8 @@ class AccountTax(models.Model):
         is_refund=False,
         handle_price_include=True,
         include_caba_tags=False,
-        fixed_multiplicator=1,
+        rounding_method=None,
+        document_tax_mode=None,
     ):
         res = super().compute_all(
             price_unit,
@@ -24,8 +25,9 @@ class AccountTax(models.Model):
             partner,
             is_refund,
             handle_price_include,
-            include_caba_tags=False,
-            fixed_multiplicator=fixed_multiplicator,
+            include_caba_tags=include_caba_tags,
+            rounding_method=rounding_method,
+            document_tax_mode=document_tax_mode,
         )
         for_avatax_object = self.env.context.get("for_avatax_object")
         if for_avatax_object:
