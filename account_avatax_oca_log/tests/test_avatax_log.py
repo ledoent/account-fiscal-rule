@@ -9,8 +9,8 @@ class TestAvataxLog(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.env["ir.config_parameter"].sudo().set_param(
-            "account_avatax_oca.call_counter_limit", "1000"
+        cls.env["ir.config_parameter"].sudo().set_int(
+            "account_avatax_oca.call_counter_limit", 1000
         )
         cls.log_sale = cls.env["avatax.log"].create(
             {
@@ -33,8 +33,8 @@ class TestAvataxLog(TransactionCase):
 
     def test_avatax_api_call_counter_below_limit(self):
         # With limit=1000 and only 2 logs, counter should NOT trigger the email branch.
-        self.env["ir.config_parameter"].sudo().set_param(
-            "account_avatax_oca.call_counter_limit", "1000"
+        self.env["ir.config_parameter"].sudo().set_int(
+            "account_avatax_oca.call_counter_limit", 1000
         )
         # Should complete without raising.
         self.env["avatax.log"].avatax_api_call_counter()

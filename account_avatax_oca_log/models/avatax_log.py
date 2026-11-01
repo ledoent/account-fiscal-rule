@@ -32,7 +32,7 @@ class AvataxLog(models.Model):
         call_counter_config_values = (
             self.env["ir.config_parameter"]
             .sudo()
-            .get_param("account_avatax_oca.call_counter_limit")
+            .get_int("account_avatax_oca.call_counter_limit")
         )
         logs = self.env["avatax.log"]
         sales_call_count = 0
@@ -53,7 +53,7 @@ class AvataxLog(models.Model):
             avatax_api_call_notification = (
                 self.env["ir.config_parameter"]
                 .sudo()
-                .get_param(
+                .get_str(
                     "account_avatax_oca.avatax_api_call_notification_ids", default="[]"
                 )
             )
