@@ -1,6 +1,6 @@
 {
     "name": "Avatax Exemptions",
-    "version": "19.0.1.0.0",
+    "version": "20.0.1.0.0",
     "category": "Sales",
     "summary": "Manage Avatax Exemption Certificates with Avalara API integration",
     "website": "https://github.com/OCA/account-fiscal-rule",
@@ -15,7 +15,7 @@
         "account_avatax_exemption_base",
     ],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/cron.xml",
         "data/queue.xml",
         "data/ir_sequence_data.xml",

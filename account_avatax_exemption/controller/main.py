@@ -19,7 +19,7 @@ class Exemption(http.Controller):
                 .sudo()
                 .search_exemption_line(exemption_id)
             )
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001 - show Avalara and portal errors to the customer
             message = False, exception_to_unicode(e)
         return request.render(
             "account_avatax_exemption.exemption_page", {"message": message}

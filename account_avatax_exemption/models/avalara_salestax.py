@@ -239,11 +239,12 @@ class AvalaraSalestax(models.Model):
                     break
 
     def export_new_tax_items(self):
-        if not self.ids:
-            self = self.search([("tax_item_export", "=", True)], limit=1)
-        if not self.tax_item_export:
+        records = self
+        if not records:
+            records = records.search([("tax_item_export", "=", True)], limit=1)
+        if not records.tax_item_export:
             return
-        products = self.env["product.product"].search(
+        products = records.env["product.product"].search(
             [
                 ("default_code", "!=", False),
                 ("avatax_item_id", "=", False),
@@ -254,21 +255,22 @@ class AvalaraSalestax(models.Model):
         )
 
         for product in products:
-            self.with_delay(
+            records.with_delay(
                 description=f"Export Tax Item {product.display_name}"
             )._export_tax_item(product)
 
     def export_new_exemption_rules(self, rules=None):
-        if not self.ids:
-            self = self.search([("exemption_rule_export", "=", True)], limit=1)
-        if not self.exemption_rule_export:
+        records = self
+        if not records:
+            records = records.search([("exemption_rule_export", "=", True)], limit=1)
+        if not records.exemption_rule_export:
             return
         if not rules:
-            rules = self.env["exemption.code.rule"].search(
+            rules = records.env["exemption.code.rule"].search(
                 [("avatax_id", "=", False), ("state", "=", "progress")],
             )
 
-        queue_job_sudo = self.env["queue.job"].sudo()
+        queue_job_sudo = records.env["queue.job"].sudo()
         for rule in rules:
             job = queue_job_sudo.search(
                 [
@@ -279,29 +281,30 @@ class AvalaraSalestax(models.Model):
                 limit=1,
             )
             if not job:
-                self.with_delay(
+                records.with_delay(
                     priority=5,
                     max_retries=2,
                     description=f"Export Rule {rule.name}",
                 )._export_base_rule_based_on_type(rule)
 
     def download_exemptions(self):
-        if not self.ids:
-            self = self.search([("exemption_export", "=", True)], limit=1)
-        if not self.exemption_export:
+        records = self
+        if not records:
+            records = records.search([("exemption_export", "=", True)], limit=1)
+        if not records.exemption_export:
             raise UserError(
-                self.env._(
+                records.env._(
                     "Avatax Exemption export is disabled in Avatax configuration"
                 )
             )
 
-        avatax_restpoint = AvaTaxRESTService(config=self)
+        avatax_restpoint = AvaTaxRESTService(config=records)
         count = 0
         result_vals = []
         include_option = None
         while True:
             r = avatax_restpoint.client.query_certificates(
-                self.avatax_company_id, include_option
+                records.avatax_company_id, include_option
             )
             result = r.json()
             count += 100
@@ -321,7 +324,7 @@ class AvalaraSalestax(models.Model):
                 include_option = "$skip=" + str(count)
 
         exemptions = (
-            self.env["res.partner.exemption.line"]
+            records.env["res.partner.exemption.line"]
             .sudo()
             .search([("avatax_id", "!=", False)])
         )
