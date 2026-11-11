@@ -46,10 +46,16 @@
                                         <t
                                             t-if="exemption_line.avatax_id and exemption_line.avatax_status"
                                         >
-                                            <span class="fa fa-check text-success" />
+                                            <span
+                                                class="oi text-success"
+                                                data-icon="check"
+                                            />
                                         </t>
                                         <t t-else="">
-                                            <span class="fa fa-times text-danger" />
+                                            <span
+                                                class="oi text-danger"
+                                                data-icon="close"
+                                            />
                                         </t>
                                     </td>
                                 </tr>
