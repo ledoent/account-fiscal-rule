@@ -38,7 +38,7 @@
                                             name="%(account_avatax_oca.action_avalara_salestax_ping)d"
                                             string="Test Connection"
                                             type="action"
-                                            icon="fa-arrow-right"
+                                            icon="arrow_forward"
                                             class="btn-link"
                                         />
                                     </div>
@@ -49,7 +49,7 @@
                                             name="%(account_avatax_oca.action_avalara_salestax_getcompany)d"
                                             string="Select Company"
                                             type="action"
-                                            icon="fa-arrow-right"
+                                            icon="arrow_forward"
                                             class="btn-link"
                                             context="{'active_id_view_ref': id}"
                                         />
